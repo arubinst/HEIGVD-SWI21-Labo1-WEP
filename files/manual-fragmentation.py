@@ -23,7 +23,7 @@ iv = b'\x01\x23\x45'
 # set the number of fragments to generate
 # /!\ there is no verification about the number set
 nb_frag = 3
-print("msg text: " + str(message))
+
 # init rc4 with a seed (iv+key)
 cipher = RC4(iv + key, streaming=False)
 
@@ -37,7 +37,6 @@ for num_frag in range(nb_frag):
     # fragment message
     msg_frag = message[(len(message) // nb_frag) * num_frag:
                        (len(message) // nb_frag) * (num_frag + 1) if num_frag + 1 < nb_frag else None]
-    print("frag txt: " + str(msg_frag))
     # compute icv
     icv = binascii.crc32(msg_frag).to_bytes(4, byteorder='little')
     # encrypt msg_frag+icv
