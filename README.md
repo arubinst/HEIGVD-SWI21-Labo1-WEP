@@ -27,14 +27,22 @@ Vous allez devoir faire des recherches sur internet pour apprendre à utiliser S
 Dans cette partie, vous allez récupérer le script Python [manual-decryption.py](files/manual-decryption.py). Il vous faudra également le fichier de capture [arp.cap](files/arp.cap) contenant un message arp chiffré avec WEP et la librairie [rc4.py](files/rc4.py) pour générer les keystreams indispensables pour chiffrer/déchiffrer WEP. Tous les fichiers doivent être copiés dans le même répertoire local sur vos machines.
 
 - Ouvrir le fichier de capture [arp.cap](files/arp.cap) avec Wireshark
-   
 - Utiliser Wireshark pour déchiffrer la capture. Pour cela, il faut configurer dans Wireshark la clé de chiffrement/déchiffrement WEP (Dans Wireshark : Preferences&rarr;Protocols&rarr;IEEE 802.11&rarr;Decryption Keys). Il faut également activer le déchiffrement dans la fenêtre IEEE 802.11 (« Enable decryption »). Vous trouverez la clé dans le script Python [manual-decryption.py](files/manual-decryption.py).
-   
 - Exécuter le script avec `python manual-decryption.py`
-   
 - Comparer la sortie du script avec la capture text déchiffrée par Wireshark
-   
 - Analyser le fonctionnement du script
+
+![](img/1.png)
+
+On peut constater sur la sortie ci-dessus, qui est celle du script fournit, que le texte déchiffré correspond à celui déchiffré par celui de wireshark ci-dessous. En ce qui concerne l'ICV, on ne le retrouve pas dans wireshark en clair.
+
+![](img/1a.png)
+
+- Fonctionnement du script
+
+Dans un premier temps, le premier paquet de la capture est lu. Puis on assemble le message et l'ICV qui sont toujours chiffrés. Après avoir initialisé RCA avec l'IV et la clé, on déchiffre le message. 
+
+Pour l'affichage, on prend les 4 derniers bytes pour afficher l'ICV en clair ainsi que sous forme numérique. Puis on affiche le texte clair sans l'ICV.
 
 ### 2. Chiffrement manuel de WEP
 
@@ -50,10 +58,17 @@ Vous devrez donc créer votre message, calculer le contrôle d’intégrité (IC
 - Vous pouvez vous guider à partir du script fourni pour les différentes conversions de formats qui pourraient être nécessaires.
 - Vous pouvez exporter votre nouvelle trame en format pcap utilisant Scapy et ensuite, l’importer dans Wireshark. Si Wireshark est capable de déchiffrer votre trame forgée, elle est correcte !
 
+## Capture d'écran du déchiffrement par wireshark
+
+![](img/2.png)
 
 ### 3. Fragmentation
 
 Dans cette partie, vous allez enrichir votre script développé dans la partie précédente pour chiffrer 3 fragments.
+
+## Capture d'écran du déchiffrement par wireshark
+
+![](img/3.png)
 
 ### Quelques éléments à considérer :
 
@@ -69,14 +84,14 @@ Dans cette partie, vous allez enrichir votre script développé dans la partie p
 
 Un fork du repo original . Puis, un Pull Request contenant :
 
--	Script de chiffrement WEP **abondamment commenté/documenté**
-  - Fichier pcap généré par votre script contenant la trame chiffrée
-  - Capture d’écran de votre trame importée et déchiffré par Wireshark
+-	Script de chiffrement WEP **abondamment commenté/documenté** OK
+  - Fichier pcap généré par votre script contenant la trame chiffrée OK
+  - Capture d’écran de votre trame importée et déchiffré par Wireshark OK
 -	Script de fragmentation **abondamment commenté/documenté**
-  - Fichier pcap généré par votre script contenant les fragments
-  - Capture d’écran de vos trames importées et déchiffrés par Wireshark 
+  - Fichier pcap généré par votre script contenant les fragments OK
+  - Capture d’écran de vos trames importées et déchiffrés par Wireshark  OK 
 
--	Envoyer le hash du commit et votre username GitHub par email au professeur et à l'assistant
+-	Envoyer le hash du commit et votre username GitHub par email au professeur et à l'assistant 
 
 
 ## Échéance
