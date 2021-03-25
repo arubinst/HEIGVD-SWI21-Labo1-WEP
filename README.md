@@ -20,6 +20,14 @@ __A faire en équipes de deux personnes__
 Vous allez devoir faire des recherches sur internet pour apprendre à utiliser Scapy. __Il est fortement conseillé d'employer une distribution Kali__ (on ne pourra pas assurer le support avec d'autres distributions). 
 
 
+## Images
+
+Chiffrement WEP
+![Chiffrement WEP](files/img/Encryption_Wireshark.png)
+
+Chiffrement WEP avec fragmentation
+![Chiffrement WEP avec fragmentation](files/img/Frag_Wireshark.png)
+
 ## Travail à réaliser
 
 ### 1. Déchiffrement manuel de WEP
