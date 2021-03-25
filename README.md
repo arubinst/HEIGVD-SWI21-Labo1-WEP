@@ -36,6 +36,32 @@ Dans cette partie, vous allez récupérer le script Python [manual-decryption.py
    
 - Analyser le fonctionnement du script
 
+
+> Résultat du script : 
+
+```bash
+$ python manual-decryption.py
+Text: aaaa03000000080600010800060400019027e4ea61f2c0a80164000000000000c0a801c8
+icv:  cc88cbb2
+icv(num): (3431517106,)
+```
+
+> Résultat via Wireshark :
+
+![Wireshark resulsts](img/e28d82d345d487e87d5c4ff34840b69b.png)
+
+Une différence notable ici est l'ICV affiché par wireshark qui n'est pas déchiffré, contrairement à celui affiché par le script.
+
+> Fonctionnement du script
+
+Le script utilise `arp.cap`, un fichier de capture. Une clé définie comme étant `AA:AA:AA:AA:AA` en hexadécimal : `\xaa\xaa\xaa\xaa\xaa`. On génère ensuite la `seed` RC4 directement avec la concatenation des bits de IV + key, l'IV est récupérée dans le `pcap`.
+
+Le script récupère ensuite l'ICV chiffré, puis le message chiffré. On génère ensuite un objet RC4 qui nous servira a déchiffrer le texte dans la foulée.
+De ce texte clair on récupère les 4 derniers bytes qui sont l'ICV en clair, le reste étant simplement le texte original.
+
+Le script imprime ensuite toutes ces infos.
+
+
 ### 2. Chiffrement manuel de WEP
 
 Utilisant le script [manual-decryption.py](files/manual-decryption.py) comme guide, créer un nouveau script `manual-encryption.py` capable de chiffrer un message, l’enregistrer dans un fichier pcap et l’envoyer.
@@ -51,6 +77,15 @@ Vous devrez donc créer votre message, calculer le contrôle d’intégrité (IC
 - Vous pouvez exporter votre nouvelle trame en format pcap utilisant Scapy et ensuite, l’importer dans Wireshark. Si Wireshark est capable de déchiffrer votre trame forgée, elle est correcte !
 
 
+> Résultat 
+
+![capture wireshark de notre payload](img/3b75663b15a36273f9b08b492b53d76e.png)
+
+On peut voir sur cette capture Wireshark plusieures choses : 
+
+  * Notre script fonctionne car Wireshark est capable d'ouvrir et de déchiffrer ce fichier arp2.cap
+  * Les modifications aportées au contenu de la capture sont visibles dans les cercles en rouge : les 6 derniers bytes ont été changé par `0xffffff`, ce qui représente les `.255.255.255` sur l'IP 
+
 ### 3. Fragmentation
 
 Dans cette partie, vous allez enrichir votre script développé dans la partie précédente pour chiffrer 3 fragments.
@@ -64,6 +99,11 @@ Dans cette partie, vous allez enrichir votre script développé dans la partie p
 - Pour vérifier que cette partie fonctionne, vous pouvez importer vos fragments dans Wireshark, qui doit être capable de les recomposer
 - Pour un test encore plus intéressant (optionnel), vous pouvez utiliser un AP (disponible sur demande) et envoyer vos fragments. Pour que l’AP accepte vous données injectées, il faudra faire une « fake authentication » que vous pouvez faire avec `aireplay-ng`
 - Si l’AP accepte vos fragments, il les recomposera et les retransmettra en une seule trame non-fragmentée !
+
+> Résultat dans Wireshark
+
+![wireshark recompose bien les fragments](img/67b95223114e4c98462a77c7e33d116e.png)
+
 
 ## Livrables
 
