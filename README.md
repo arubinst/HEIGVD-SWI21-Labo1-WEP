@@ -79,7 +79,7 @@ Vous devrez donc créer votre message, calculer le contrôle d’intégrité (IC
 
 > Résultat 
 
-![capture wireshark de notre payload](img\3b75663b15a36273f9b08b492b53d76e.png)
+![capture wireshark de notre payload](img/3b75663b15a36273f9b08b492b53d76e.png)
 
 On peut voir sur cette capture Wireshark plusieures choses : 
 
