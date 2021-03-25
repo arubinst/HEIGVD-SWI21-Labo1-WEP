@@ -14,10 +14,10 @@ from scapy.all import *
 import binascii
 from rc4 import RC4
 #Cle wep AA:AA:AA:AA:AA
-key= b'\xaa\xaa\xaa\xaa\xaa'
+key= b'\xca\xaa\xff\xee\xee'
 
 #lecture de message chiffré - rdpcap retourne toujours un array, même si la capture contient un seul paquet
-arp = rdpcap('arp.cap')[0]  
+arp = rdpcap('created_arp.cap')[0]
 
 # rc4 seed est composé de IV+clé
 seed = arp.iv+key
